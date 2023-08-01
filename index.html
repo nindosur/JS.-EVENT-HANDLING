@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document</title>
+    <style>
+        /* task2 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        /* task4 */
+        .traffic__lights {
+            width: 60px;
+            height: 200px;
+            padding: 10px 0;
+            padding-bottom: 0;
+            display: flex;
+            flex-flow: column wrap;
+            justify-content: space-between;
+            align-items: center;
+            background-color: black;
+            border-radius: 0.5rem;
+        }
+        .traffic__light {
+            width: 40px;
+            height: 40px;
+            border-radius: 100%;
+            border: 2px solid lightgrey;
+            background-color: grey;
+        }
+        .traffic__off {
+            background-color: #555;
+        }
+        .traffic__red {
+            background-color: red;
+        }
+        .traffic__green {
+            background-color: green;
+        }
+        .traffic__yellow {
+            background-color: yellow;
+        }
+        .traffic__btn {
+            border-radius: 0.5rem;
+        }
+        /* 5 */
+        ul {
+            /* list-style-type: none; */
+            padding: 0;
+        }
+        
+        li {
+            padding: 10px;
+            cursor: pointer;
+        }
+        
+        .selected {
+            background-color: orange;
+        }
+        /* 6 */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }
+
+        .tooltip.top .tooltiptext {
+            top: -30px;
+            bottom: auto;
+        }       
+
+        .tooltip.bottom .tooltiptext {
+            top: auto;
+            bottom: -30px;
+        }
+        
+    </style>
+</head>
+<body>
+<!-- 1 -->
+<h3>Задание 1</h3>
+<p>Enter your name (name can't contain digits)</p>
+<input type="text" id="username" onkeypress="validateInput(event)">
+
+<!-- 2 -->
+<h3>Задание 2</h3>
+<button onclick="openModal()">Открыть</button>
+  
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <p>Hello from Modal Window!!</p>
+    <button onclick="closeModal()">Закрыть</button>
+  </div>
+</div>
+
+<!-- 3 -->
+<h3>Задание 3</h3>
+<button onclick="document.location='football.html'">Футбольное поле</button>
+
+
+<!-- 4 -->
+<h3>Задание 4</h3>
+<div id="content" class="content">
+  <div class="traffic__lights">
+    <div id="red" class="traffic__light traffic__red"></div>
+    <div id="yellow" class="traffic__light"></div>
+    <div id="green" class="traffic__light"></div>
+    <button id="btn" class="traffic__btn">NEXT</button>
+  </div>
+</div>
+
+<!-- 5 -->
+<h3>Задание 5</h3>
+<ol id="book-list">
+  <li>"JavaScript for Kids: A Playful Introduction to Programming" by Nick Morgan</li>
+  <li>"Eloquent JavaScript: A Modern Introduction to Programming" by Marijn Haverbeke</li>
+  <li>"JavaScript: The Good Parts" by Douglas Crocford</li>
+  <li>"Programming JavaScript Applications: Robust Web Architecture with Node, HTML5, and Moderns JS Libraries" by Eric Elliott</li>
+  <li>"Effective JavaScript: 68 Specific Ways to Harness the Power of JavaScript" by David Herman</li>
+  <li>JavaScript: The Definitive Guide by David Flanagan</li>
+  <li>"You Don't Know JS" by Kyle Simpson</li>
+</ol>
+
+<!-- 6 -->
+<h3>Задание 6</h3>
+<div class="tooltip top">
+  <button>Button 1</button>
+  <span class="tooltiptext">Tool tip 1</span>
+</div>
+
+<div class="tooltip bottom">
+  <button>Button 2</button>
+  <span class="tooltiptext">Tool tip 3</span>
+</div>
+
+
+
+<script>
+//1
+function validateInput(event) {
+    const input = document.getElementById("username");
+    const charCode = event.which || event.keyCode;
+    const char = String.fromCharCode(charCode);
+      
+    if (/\d/.test(char)) {
+    event.preventDefault();
+    } else {
+        input.value += char;
+    }
+}
+
+//2
+function openModal() {
+      const modal = document.getElementById("modal");
+      modal.style.display = "block";
+    }
+    
+    function closeModal() {
+      const modal = document.getElementById("modal");
+      modal.style.display = "none";
+    }
+
+//4
+const trafficLights = document.querySelector("div.traffic__light");
+
+const redlight = document.getElementById("red");
+const yellowlight = document.getElementById("yellow");
+const greenlight = document.getElementById("green");
+const butn = document.getElementById("btn");
+
+butn.addEventListener("click", function() {
+  if (redlight.classList.contains("traffic__red")) {
+    redlight.classList.remove("traffic__red");
+    yellowlight.classList.add("traffic__yellow");
+  } else if (yellowlight.classList.contains("traffic__yellow")) {
+    yellowlight.classList.remove("traffic__yellow");
+    greenlight.classList.add("traffic__green");
+  } else if (greenlight.classList.contains("traffic__green")) {
+    greenlight.classList.remove("traffic__green");
+    redlight.classList.add("traffic__red");
+  }
+});
+
+// 5
+var bookList = document.getElementById('book-list');
+        var books = bookList.getElementsByTagName('li');
+        
+        bookList.addEventListener('click', function(event) {
+            var target = event.target;
+            
+            if (target.tagName === 'LI') {
+                var selected = document.querySelector('.selected');
+                
+                if (selected) {
+                    selected.classList.remove('selected');
+                }
+                
+                target.classList.add('selected');
+            }
+        });
+
+// 6
+
+
+</script>
+    
+</body>
+</html>
